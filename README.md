@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Operational Notes
+
+### Alert Suppression
+
+Suppressions are stored with `start_time` and `end_time` in `sensor_suppressions`.
+During an active suppression window:
+
+- anomalies are still detected and written to `anomalies`
+- alerts are still written to `alerts`
+- suppressed alerts are marked with `suppressed = true`
+- suppressed alerts do not produce live dashboard notifications or escalation actions
+
+If a suppression is created while an alert is already open for the sensor, the open alert remains open.
+The suppression only affects anomalies detected during the active window; it does not retroactively resolve or hide existing alerts.
